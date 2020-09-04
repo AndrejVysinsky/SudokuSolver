@@ -2,11 +2,11 @@
 
 namespace SudokuSolverLibrary
 {
-    internal class SudokuGrid
+    public class SudokuGrid
     {
         private int[][] _grid;
 
-        public event Action<int, int> NumberChanged;
+        public event Action<int, int> OnCellChanged;
 
         public SudokuGrid(int[][] grid)
         {
@@ -17,7 +17,7 @@ namespace SudokuSolverLibrary
         {
             _grid[row][col] = number;
 
-            NumberChanged?.Invoke(row, col);
+            OnCellChanged?.Invoke(row, col);
         }
 
         public int GetCellNumber(int row, int col)

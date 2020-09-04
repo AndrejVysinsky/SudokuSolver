@@ -13,7 +13,7 @@ namespace ConsoleUI
          * - empty cells are marked with 0
          */
 
-        static int[][] sudokuGrid = new int[][]
+        static int[][] grid = new int[][]
         {
             new int[]{0, 0, 7, 0, 0, 0, 0, 2, 0},
             new int[]{0, 9, 0, 2, 0, 0, 7, 5, 0},
@@ -28,37 +28,41 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            Print();
-
-            var sudokuSolver = new SudokuSolver(sudokuGrid);
-
-            sudokuSolver.SubscribeToNumberChangedEvent(PrintChange);
-
-            sudokuSolver.Solve();
+            PrintUnsolved();
+            Solve();
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        static void Print()
+        static void PrintUnsolved()
         {
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    Console.ForegroundColor = sudokuGrid[i][j] == 0 ? ConsoleColor.Red : ConsoleColor.White;
-                    Console.Write(sudokuGrid[i][j] + " ");
+                    Console.ForegroundColor = grid[i][j] == 0 ? ConsoleColor.Red : ConsoleColor.White;
+                    Console.Write(grid[i][j] + " ");
                 }
                 Console.WriteLine();
             }
         }
 
-        static void PrintChange(int row, int col)
+        static void Solve()
+        {
+            var sudokuGrid = new SudokuGrid(grid);
+            sudokuGrid.OnCellChanged += PrintCellChange;
+
+            var sudokuSolver = new SudokuSolver(sudokuGrid);
+            sudokuSolver.Solve();
+        }
+
+        static void PrintCellChange(int row, int col)
         {
             Console.SetCursorPosition(col * 2, row);
             
-            Console.ForegroundColor = sudokuGrid[row][col] == 0 ? ConsoleColor.Red : ConsoleColor.Green;
-            Console.Write(sudokuGrid[row][col]);
+            Console.ForegroundColor = grid[row][col] == 0 ? ConsoleColor.Red : ConsoleColor.Green;
+            Console.Write(grid[row][col]);
 
             Thread.Sleep(5);
         }

@@ -8,15 +8,10 @@ namespace SudokuSolverLibrary
 
         private bool _isSolved;
 
-        public SudokuSolver(int[][] grid)
+        public SudokuSolver(SudokuGrid sudokuGrid)
         {
-            _sudokuGrid = new SudokuGrid(grid);
+            _sudokuGrid = sudokuGrid;
             _isSolved = false;
-        }
-
-        public void SubscribeToNumberChangedEvent(Action<int, int> action)
-        {
-            _sudokuGrid.NumberChanged += action;
         }
 
         public bool Solve()
